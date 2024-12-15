@@ -9,7 +9,18 @@ def recommend_restaurants(location, cuisine, rating):
         (data['cuisine_type'].str.contains(cuisine, case=False)) &
         (data['rating'] >= rating)
     ]
-    return filtered.head(5)
+
+    # specify the columns to return
+    columns_to_return = ['Restaurant Name', 'Address','cuisine_type', 'rating', 'Rating text']  # List of desired columns
+
+# If specific columns are requested, return only those
+    if columns_to_return:
+        filtered = filtered[columns_to_return]
+
+# Set a specific column as the index
+    filtered = filtered.set_index('Restaurant Name')
+
+    return filtered.head(10)
 
 if __name__ == '__main__':
     recommendations = recommend_restaurants('New York', 'Italian', 4.0)
